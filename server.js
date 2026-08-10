@@ -25,11 +25,13 @@ const PRICES = {
     5: 25.80,
     10: 50.00
   },
+
   Telecel: {
     10: 42.00,
     20: 78.00,
     50: 180.50
   },
+
   AirtelTigo: {
     1: 6.00,
     2: 14.00,
@@ -100,7 +102,7 @@ app.post("/api/payment/verify", async (req, res) => {
       {
         method: "GET",
         headers: {
-          Authorization:
+          "Authorization":
             `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
         }
       }
@@ -148,12 +150,16 @@ app.post("/api/payment/verify", async (req, res) => {
       ORDER_API_URL,
       {
         method: "POST",
+
         headers: {
-  "Content-Type": "application/json",
-  "X-API-Key": process.env.RAXAMART_API_KEY,
-  "X-Idempotency-Key": reference
-}
-        PI     body: JSON.stringify({
+          "Content-Type": "application/json",
+          "X-API-Key":
+            process.env.RAXAMART_API_KEY,
+          "X-Idempotency-Key":
+            reference
+        },
+
+        body: JSON.stringify({
           phone_number,
           network,
           plan_size_gb: planSize,
@@ -194,4 +200,4 @@ app.listen(PORT, () => {
   console.log(
     `Ebenstudio Data Hub running on port ${PORT}`
   );
-});
+});￼Enter
