@@ -25,13 +25,11 @@ const PRICES = {
     5: 25.80,
     10: 50.00
   },
-
   Telecel: {
     10: 42.00,
     20: 78.00,
     50: 180.50
   },
-
   AirtelTigo: {
     1: 6.00,
     2: 14.00,
@@ -40,8 +38,6 @@ const PRICES = {
   }
 };
 
-
-// Health check
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -49,18 +45,14 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-
-// Verify Paystack payment
 app.post("/api/payment/verify", async (req, res) => {
   try {
-
     const {
       reference,
       phone_number,
       network,
       plan_size_gb
     } = req.body;
-
 
     if (
       !reference ||
@@ -74,11 +66,7 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
     const planSize = Number(plan_size_gb);
-
-
-    // Check that the selected network and bundle exist
 
     if (
       !PRICES[network] ||
@@ -90,12 +78,8 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
     const expectedAmount =
-      Math.round(
-        PRICES[network][planSize] * 100
-      );
-
+      Math.round(PRICES[network][planSize] * 100);
 
     if (!process.env.PAYSTACK_SECRET_KEY) {
       return res.status(500).json({
@@ -104,7 +88,6 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
     if (!process.env.RAXAMART_API_KEY) {
       return res.status(500).json({
         success: false,
@@ -112,14 +95,10 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
-    // Verify transaction with Paystack
-
     const paymentResponse = await fetch(
       `${PAYSTACK_API_URL}/transaction/verify/${encodeURIComponent(reference)}`,
       {
         method: "GET",
-
         headers: {
           Authorization:
             `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
@@ -127,10 +106,8 @@ app.post("/api/payment/verify", async (req, res) => {
       }
     );
 
-
     const paymentData =
       await paymentResponse.json();
-
 
     if (
       !paymentResponse.ok ||
@@ -143,12 +120,7 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
-    const payment =
-      paymentData.data;
-
-
-    // Confirm payment succeeded
+    const payment = paymentData.data;
 
     if (payment.status !== "success") {
       return res.status(400).json({
@@ -157,9 +129,6 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
-    // Confirm currency
-
     if (payment.currency !== "GHS") {
       return res.status(400).json({
         success: false,
@@ -167,11 +136,7 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
-    // Confirm amount
-
     if (Number(payment.amount) !== expectedAmount) {
-
       return res.status(400).json({
         success: false,
         message:
@@ -179,21 +144,15 @@ app.post("/api/payment/verify", async (req, res) => {
       });
     }
 
-
-    // Payment is verified.
-    // Now create the Rexamart order.
-
     const orderResponse = await fetch(
       ORDER_API_URL,
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
           "X-API-Key":
             process.env.RAXAMART_API_KEY
         },
-
         body: JSON.stringify({
           phone_number,
           network,
@@ -203,30 +162,21 @@ app.post("/api/payment/verify", async (req, res) => {
       }
     );
 
-
     const orderData =
       await orderResponse.json();
 
-
     if (!orderResponse.ok) {
-
-      return res.status(
-        orderResponse.status
-      ).json({
+      return res.status(orderResponse.status).json({
         success: false,
         message:
           orderData.message ||
           "Payment succeeded but the data order could not be created."
       });
-
     }
-
 
     return res.json(orderData);
 
-
   } catch (error) {
-
     console.error(
       "Payment verification error:",
       error
@@ -240,11 +190,8 @@ app.post("/api/payment/verify", async (req, res) => {
   }
 });
 
-
 app.listen(PORT, () => {
-
   console.log(
     `Ebenstudio Data Hub running on port ${PORT}`
   );
-
-});￼Enter
+});
