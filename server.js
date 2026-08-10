@@ -200,4 +200,3 @@ app.listen(PORT, () => {
   console.log(
     `Ebenstudio Data Hub running on port ${PORT}`
   );
-});￼Enter
