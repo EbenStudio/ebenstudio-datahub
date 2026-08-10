@@ -20,62 +20,115 @@
 
     body {
       margin: 0;
-      background: #f4f7fb;
-      color: #111827;
+      background: #f7f7f7;
+      color: #171717;
     }
+
+    /* HEADER */
 
     header {
-      background: linear-gradient(135deg, #111827, #1f2937);
+      background: #111111;
+      color: white;
+      padding: 20px;
+    }
+
+    .navbar {
+      max-width: 950px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #ffd400;
+    }
+
+    .nav-button {
+      background: #ffd400;
+      color: #111111;
+      padding: 9px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* HERO */
+
+    .hero {
+      background: linear-gradient(
+        135deg,
+        #111111,
+        #252525
+      );
+
       color: white;
       text-align: center;
-      padding: 55px 20px 45px;
+      padding: 65px 20px 75px;
     }
 
-    .brand {
-      font-size: 15px;
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,212,0,0.15);
+      color: #ffd400;
+      padding: 7px 13px;
+      border-radius: 20px;
+      font-size: 13px;
       font-weight: bold;
-      letter-spacing: 2px;
-      opacity: 0.8;
-      text-transform: uppercase;
+      margin-bottom: 15px;
     }
 
-    header h1 {
-      margin: 12px 0 10px;
-      font-size: 38px;
+    .hero h1 {
+      max-width: 700px;
+      margin: auto;
+      font-size: 42px;
+      line-height: 1.15;
     }
 
-    header p {
-      max-width: 520px;
-      margin: 0 auto;
+    .hero h1 span {
+      color: #ffd400;
+    }
+
+    .hero p {
+      max-width: 580px;
+      margin: 18px auto;
       line-height: 1.6;
-      opacity: 0.9;
+      color: #dddddd;
     }
 
     .hero-button {
       display: inline-block;
-      margin-top: 25px;
-      padding: 13px 25px;
-      background: white;
-      color: #111827;
-      border-radius: 10px;
+      margin-top: 15px;
+      padding: 14px 26px;
+      background: #ffd400;
+      color: #111111;
+      border-radius: 9px;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 900;
     }
 
+    /* MAIN */
+
     .container {
-      max-width: 850px;
+      max-width: 950px;
       margin: auto;
       padding: 25px 18px;
     }
 
     .section-title {
       text-align: center;
-      margin: 35px 0 18px;
+      margin: 40px 0 20px;
     }
 
     .section-title h2 {
       margin-bottom: 7px;
-      font-size: 25px;
+      font-size: 27px;
     }
 
     .section-title p {
@@ -83,56 +136,59 @@
       margin-top: 0;
     }
 
+    /* NETWORKS */
+
     .networks {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 15px;
     }
 
     .network-card {
       background: white;
+      padding: 25px 15px;
       border-radius: 16px;
-      padding: 22px 12px;
       text-align: center;
-      border: 2px solid #e5e7eb;
+      border: 2px solid #e5e5e5;
       cursor: pointer;
       transition: 0.2s;
     }
 
     .network-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
     }
 
     .network-card.active {
-      border-color: #111827;
+      border-color: #111111;
     }
 
     .network-logo {
-      font-size: 35px;
-      margin-bottom: 8px;
+      font-size: 38px;
+      margin-bottom: 10px;
     }
 
     .network-name {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: bold;
     }
 
+    /* BUNDLES */
+
     .bundle-area {
-      margin-top: 20px;
       background: white;
       padding: 20px;
+      margin-top: 18px;
       border-radius: 16px;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
     }
 
     .bundle {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      padding: 15px;
       border: 1px solid #e5e7eb;
-      padding: 14px;
       border-radius: 11px;
       margin-bottom: 10px;
     }
@@ -142,37 +198,42 @@
     }
 
     .bundle strong {
-      font-size: 17px;
+      font-size: 18px;
     }
 
     .bundle-price {
-      color: #374151;
-      margin-top: 4px;
+      margin-top: 5px;
+      color: #555;
     }
 
     .select-button {
       width: auto;
-      padding: 9px 15px;
-      margin: 0;
-      background: #111827;
-      color: white;
+      padding: 10px 15px;
       border: none;
       border-radius: 8px;
+      background: #111111;
+      color: white;
       font-weight: bold;
       cursor: pointer;
     }
 
+    .select-button:hover {
+      background: #333333;
+    }
+
+    /* FORM */
+
     .card {
       background: white;
-      padding: 25px;
-      border-radius: 16px;
+      padding: 28px;
+      border-radius: 17px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.07);
-      margin-top: 25px;
+      margin-top: 20px;
     }
 
     label {
       display: block;
-      margin-top: 16px;
+      margin-top: 17px;
       margin-bottom: 7px;
       font-weight: bold;
     }
@@ -181,76 +242,96 @@
     select,
     form button {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       border-radius: 9px;
       border: 1px solid #d1d5db;
       font-size: 16px;
     }
 
+    input:focus,
+    select:focus {
+      outline: 2px solid #ffd400;
+      border-color: #ffd400;
+    }
+
     form button {
       margin-top: 22px;
+      background: #ffd400;
+      color: #111111;
       border: none;
-      background: #111827;
-      color: white;
-      font-weight: bold;
+      font-weight: 900;
       cursor: pointer;
+    }
+
+    form button:hover {
+      background: #eec500;
     }
 
     form button:disabled {
       opacity: 0.6;
+      cursor: not-allowed;
     }
 
     #price {
-      margin-top: 15px;
-      font-size: 21px;
-      font-weight: bold;
+      margin-top: 17px;
+      font-size: 22px;
+      font-weight: 900;
     }
 
     #selectedBundle {
       margin-top: 12px;
-      padding: 12px;
-      border-radius: 9px;
+      padding: 13px;
       background: #f3f4f6;
+      border-radius: 9px;
       font-size: 14px;
     }
 
     #message {
       margin-top: 18px;
-      padding: 13px;
+      padding: 14px;
       border-radius: 9px;
       display: none;
       background: #f3f4f6;
     }
 
+    .payment-note {
+      text-align: center;
+      margin-top: 14px;
+      color: #777;
+      font-size: 13px;
+    }
+
+    /* HOW IT WORKS */
+
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 15px;
     }
 
     .step {
       background: white;
-      padding: 20px;
+      padding: 23px;
       border-radius: 15px;
       text-align: center;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
     .step-number {
-      width: 40px;
-      height: 40px;
-      margin: 0 auto 12px;
+      width: 42px;
+      height: 42px;
+      margin: auto;
       border-radius: 50%;
-      background: #111827;
-      color: white;
+      background: #ffd400;
+      color: #111111;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-weight: bold;
+      align-items: center;
+      font-weight: 900;
     }
 
     .step h3 {
-      margin: 8px 0;
+      margin-bottom: 8px;
     }
 
     .step p {
@@ -259,15 +340,17 @@
       line-height: 1.5;
     }
 
+    /* BENEFITS */
+
     .benefits {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      gap: 15px;
     }
 
     .benefit {
       background: white;
-      padding: 20px;
+      padding: 22px;
       border-radius: 14px;
     }
 
@@ -281,54 +364,62 @@
       margin-bottom: 0;
     }
 
+    /* SUPPORT */
+
     .support {
-      text-align: center;
-      background: #111827;
+      margin-top: 30px;
+      background: #111111;
       color: white;
-      padding: 28px 20px;
-      border-radius: 16px;
-      margin-top: 25px;
+      text-align: center;
+      padding: 35px 20px;
+      border-radius: 17px;
+    }
+
+    .support h2 {
+      margin-top: 0;
     }
 
     .support p {
-      opacity: 0.85;
+      color: #dddddd;
       line-height: 1.5;
     }
 
     .support a {
-      color: white;
+      color: #ffd400;
       font-weight: bold;
+      text-decoration: none;
     }
 
-    .payment-note {
-      text-align: center;
-      color: #6b7280;
-      font-size: 13px;
-      margin-top: 15px;
-    }
+    /* FOOTER */
 
     footer {
-      margin-top: 35px;
-      padding: 25px 15px;
-      background: #111827;
+      margin-top: 40px;
+      background: #111111;
       color: white;
       text-align: center;
-      font-size: 13px;
+      padding: 27px 15px;
+    }
+
+    footer strong {
+      color: #ffd400;
     }
 
     footer p {
-      margin: 5px;
-      opacity: 0.75;
+      margin: 6px;
+      opacity: 0.7;
+      font-size: 13px;
     }
 
-    @media (max-width: 600px) {
+    /* MOBILE */
 
-      header {
-        padding: 42px 18px;
+    @media (max-width: 650px) {
+
+      .navbar {
+        gap: 10px;
       }
 
-      header h1 {
-        font-size: 30px;
+      .hero h1 {
+        font-size: 32px;
       }
 
       .networks,
@@ -344,6 +435,7 @@
       .select-button {
         flex-shrink: 0;
       }
+
     }
   </style>
 </head>
@@ -352,31 +444,65 @@
 
 <header>
 
-  <div class="brand">
-    Ebenstudio
+  <div class="navbar">
+
+    <div class="logo">
+      EBENSTUDIO <span>DATA HUB</span>
+    </div>
+
+    <a
+      href="#buy"
+      class="nav-button"
+    >
+      Buy Data
+    </a>
+
   </div>
-
-  <h1>Ebenstudio Data Hub</h1>
-
-  <p>
-    Affordable data bundles for MTN, Telecel and AirtelTigo.
-    Choose your bundle and pay securely online.
-  </p>
-
-  <a href="#buy" class="hero-button">
-    Buy Data Now
-  </a>
 
 </header>
 
 
+<section class="hero">
+
+  <div class="hero-badge">
+    FAST • AFFORDABLE • RELIABLE
+  </div>
+
+  <h1>
+    Stay Connected With
+    <span>Ebenstudio Data Hub</span>
+  </h1>
+
+  <p>
+    Get affordable MTN, Telecel and AirtelTigo
+    data bundles quickly and conveniently.
+  </p>
+
+  <a
+    href="#buy"
+    class="hero-button"
+  >
+    Buy Data Now
+  </a>
+
+</section>
+
+
 <main class="container">
+
 
   <section>
 
     <div class="section-title">
-      <h2>Choose Your Network</h2>
-      <p>Select a network to view available data bundles.</p>
+
+      <h2>
+        Choose Your Network
+      </h2>
+
+      <p>
+        Select a network to view available bundles.
+      </p>
+
     </div>
 
 
@@ -386,8 +512,15 @@
         class="network-card"
         onclick="selectNetwork('MTN', this)"
       >
-        <div class="network-logo">🟨</div>
-        <div class="network-name">MTN</div>
+
+        <div class="network-logo">
+          🟨
+        </div>
+
+        <div class="network-name">
+          MTN
+        </div>
+
       </div>
 
 
@@ -395,8 +528,15 @@
         class="network-card"
         onclick="selectNetwork('Telecel', this)"
       >
-        <div class="network-logo">🔴</div>
-        <div class="network-name">Telecel</div>
+
+        <div class="network-logo">
+          🔴
+        </div>
+
+        <div class="network-name">
+          Telecel
+        </div>
+
       </div>
 
 
@@ -404,8 +544,15 @@
         class="network-card"
         onclick="selectNetwork('AirtelTigo', this)"
       >
-        <div class="network-logo">🔵</div>
-        <div class="network-name">AirtelTigo</div>
+
+        <div class="network-logo">
+          🔵
+        </div>
+
+        <div class="network-name">
+          AirtelTigo
+        </div>
+
       </div>
 
     </div>
@@ -415,9 +562,11 @@
       id="bundleList"
       class="bundle-area"
     >
+
       <p>
         Select a network above to see available bundles.
       </p>
+
     </div>
 
   </section>
@@ -426,8 +575,15 @@
   <section id="buy">
 
     <div class="section-title">
-      <h2>Buy Your Data</h2>
-      <p>Enter your details below to continue.</p>
+
+      <h2>
+        Buy Your Data
+      </h2>
+
+      <p>
+        Enter your details and pay securely.
+      </p>
+
     </div>
 
 
@@ -523,13 +679,11 @@
       </form>
 
 
-      <div
-        id="message"
-      ></div>
+      <div id="message"></div>
 
 
       <div class="payment-note">
-        Payment is processed securely through Paystack.
+        🔒 Secure payment powered by Paystack.
         Never share your PIN or password.
       </div>
 
@@ -541,8 +695,15 @@
   <section>
 
     <div class="section-title">
-      <h2>How It Works</h2>
-      <p>Getting your data is simple.</p>
+
+      <h2>
+        How It Works
+      </h2>
+
+      <p>
+        Getting your data is simple.
+      </p>
+
     </div>
 
 
@@ -554,11 +715,13 @@
           1
         </div>
 
-        <h3>Choose</h3>
+        <h3>
+          Choose
+        </h3>
 
         <p>
-          Select MTN, Telecel or AirtelTigo
-          and choose your preferred bundle.
+          Select your network and preferred
+          data bundle.
         </p>
 
       </div>
@@ -570,11 +733,13 @@
           2
         </div>
 
-        <h3>Enter Details</h3>
+        <h3>
+          Enter Details
+        </h3>
 
         <p>
           Enter the phone number that should
-          receive the data and your email address.
+          receive the data.
         </p>
 
       </div>
@@ -586,11 +751,13 @@
           3
         </div>
 
-        <h3>Pay</h3>
+        <h3>
+          Pay
+        </h3>
 
         <p>
-          Pay securely and wait for your order
-          to be processed.
+          Complete your payment securely
+          through Paystack.
         </p>
 
       </div>
@@ -603,7 +770,11 @@
   <section>
 
     <div class="section-title">
-      <h2>Why Choose Us?</h2>
+
+      <h2>
+        Why Ebenstudio?
+      </h2>
+
     </div>
 
 
@@ -611,7 +782,9 @@
 
       <div class="benefit">
 
-        <h3>⚡ Fast Service</h3>
+        <h3>
+          ⚡ Fast Processing
+        </h3>
 
         <p>
           Your order is submitted for processing
@@ -623,11 +796,13 @@
 
       <div class="benefit">
 
-        <h3>💰 Affordable Bundles</h3>
+        <h3>
+          💰 Affordable Prices
+        </h3>
 
         <p>
-          Choose from a range of data packages
-          to suit your needs.
+          Choose from a variety of data bundles
+          at competitive prices.
         </p>
 
       </div>
@@ -635,12 +810,13 @@
 
       <div class="benefit">
 
-        <h3>🔒 Secure Payments</h3>
+        <h3>
+          🔒 Secure Payments
+        </h3>
 
         <p>
-          Payments are handled through Paystack.
-          Your payment details are not stored on
-          this website.
+          Payments are handled securely through
+          Paystack.
         </p>
 
       </div>
@@ -648,11 +824,13 @@
 
       <div class="benefit">
 
-        <h3>📱 Multiple Networks</h3>
+        <h3>
+          📱 Multiple Networks
+        </h3>
 
         <p>
           MTN, Telecel and AirtelTigo bundles
-          are available in one place.
+          available in one place.
         </p>
 
       </div>
@@ -664,15 +842,17 @@
 
   <section class="support">
 
-    <h2>Need Help?</h2>
+    <h2>
+      Need Help?
+    </h2>
 
     <p>
-      If you have a problem with an order,
-      contact Ebenstudio Data Hub for assistance.
+      Having a problem with your order?
+      Contact Ebenstudio Data Hub.
     </p>
 
     <p>
-      <strong>Support:</strong>
+      Support:
       <a href="tel:0598273865">
         0598273865
       </a>
@@ -686,11 +866,15 @@
 <footer>
 
   <p>
-    © 2026 Ebenstudio Data Hub
+    <strong>EBENSTUDIO DATA HUB</strong>
   </p>
 
   <p>
-    Affordable and reliable data bundles.
+    Fast • Affordable • Reliable
+  </p>
+
+  <p>
+    © 2026 Ebenstudio Data Hub. All rights reserved.
   </p>
 
 </footer>
@@ -817,11 +1001,15 @@
         const bundle =
           document.createElement("div");
 
-        bundle.className = "bundle";
+        bundle.className =
+          "bundle";
 
         bundle.innerHTML = `
           <div>
-            <strong>${plan.gb}GB</strong>
+            <strong>
+              ${plan.gb}GB
+            </strong>
+
             <div class="bundle-price">
               GH₵${plan.price.toFixed(2)}
             </div>
@@ -846,11 +1034,13 @@
 
   function chooseBundle(network, index) {
 
-    networkSelect.value = network;
+    networkSelect.value =
+      network;
 
     loadPlans(network);
 
-    planSelect.value = index;
+    planSelect.value =
+      index;
 
     updatePrice();
 
@@ -993,7 +1183,8 @@
       }
 
 
-      button.disabled = true;
+      button.disabled =
+        true;
 
       button.textContent =
         "Opening payment...";
@@ -1150,4 +1341,4 @@
 </script>
 
 </body>
-  </html>
+</html>
