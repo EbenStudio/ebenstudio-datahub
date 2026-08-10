@@ -18,11 +18,30 @@ const ORDER_API_URL =
 const PAYSTACK_API_URL =
   "https://api.paystack.co";
 
+const PRICES = {
+  MTN: {
+    1: 6.00,
+    2: 10.00,
+    5: 25.80,
+    10: 50.00
+  },
 
-// -------------------------
+  Telecel: {
+    10: 42.00,
+    20: 78.00,
+    50: 180.50
+  },
+
+  AirtelTigo: {
+    1: 6.00,
+    2: 14.00,
+    5: 24.00,
+    10: 45.00
+  }
+};
+
+
 // Health check
-// -------------------------
-
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -31,18 +50,17 @@ app.get("/api/health", (req, res) => {
 });
 
 
-// -------------------------
 // Verify Paystack payment
-// -------------------------
-
 app.post("/api/payment/verify", async (req, res) => {
   try {
+
     const {
       reference,
       phone_number,
       network,
       plan_size_gb
     } = req.body;
+
 
     if (
       !reference ||
@@ -52,9 +70,32 @@ app.post("/api/payment/verify", async (req, res) => {
     ) {
       return res.status(400).json({
         success: false,
-        message: "Missing payment or order information."
+        message: "Missing order information."
       });
     }
+
+
+    const planSize = Number(plan_size_gb);
+
+
+    // Check that the selected network and bundle exist
+
+    if (
+      !PRICES[network] ||
+      !PRICES[network][planSize]
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid network or data bundle."
+      });
+    }
+
+
+    const expectedAmount =
+      Math.round(
+        PRICES[network][planSize] * 100
+      );
+
 
     if (!process.env.PAYSTACK_SECRET_KEY) {
       return res.status(500).json({
@@ -62,6 +103,7 @@ app.post("/api/payment/verify", async (req, res) => {
         message: "Paystack is not configured."
       });
     }
+
 
     if (!process.env.RAXAMART_API_KEY) {
       return res.status(500).json({
@@ -77,6 +119,7 @@ app.post("/api/payment/verify", async (req, res) => {
       `${PAYSTACK_API_URL}/transaction/verify/${encodeURIComponent(reference)}`,
       {
         method: "GET",
+
         headers: {
           Authorization:
             `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
@@ -84,14 +127,15 @@ app.post("/api/payment/verify", async (req, res) => {
       }
     );
 
-    const paymentData = await paymentResponse.json();
+
+    const paymentData =
+      await paymentResponse.json();
 
 
     if (
       !paymentResponse.ok ||
       !paymentData.status ||
-      !paymentData.data ||
-      paymentData.data.status !== "success"
+      !paymentData.data
     ) {
       return res.status(400).json({
         success: false,
@@ -100,9 +144,23 @@ app.post("/api/payment/verify", async (req, res) => {
     }
 
 
-    // Make sure the payment currency is Ghana cedis
+    const payment =
+      paymentData.data;
 
-    if (paymentData.data.currency !== "GHS") {
+
+    // Confirm payment succeeded
+
+    if (payment.status !== "success") {
+      return res.status(400).json({
+        success: false,
+        message: "Payment was not successful."
+      });
+    }
+
+
+    // Confirm currency
+
+    if (payment.currency !== "GHS") {
       return res.status(400).json({
         success: false,
         message: "Invalid payment currency."
@@ -110,60 +168,83 @@ app.post("/api/payment/verify", async (req, res) => {
     }
 
 
+    // Confirm amount
+
+    if (Number(payment.amount) !== expectedAmount) {
+
+      return res.status(400).json({
+        success: false,
+        message:
+          "Payment amount does not match the selected data bundle."
+      });
+    }
+
+
     // Payment is verified.
-    // Now submit the data order.
+    // Now create the Rexamart order.
 
     const orderResponse = await fetch(
       ORDER_API_URL,
       {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": process.env.RAXAMART_API_KEY
+          "X-API-Key":
+            process.env.RAXAMART_API_KEY
         },
+
         body: JSON.stringify({
           phone_number,
           network,
-          plan_size_gb,
+          plan_size_gb: planSize,
           reference
         })
       }
     );
 
 
-    const orderData = await orderResponse.json();
+    const orderData =
+      await orderResponse.json();
 
 
     if (!orderResponse.ok) {
-      return res.status(orderResponse.status).json({
+
+      return res.status(
+        orderResponse.status
+      ).json({
         success: false,
         message:
           orderData.message ||
           "Payment succeeded but the data order could not be created."
       });
+
     }
 
 
     return res.json(orderData);
 
+
   } catch (error) {
 
-    console.error("Payment verification error:", error);
+    console.error(
+      "Payment verification error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
-      message: "Something went wrong while processing the payment."
+      message:
+        "Something went wrong while processing the payment."
     });
   }
 });
 
 
-// -------------------------
-// Start server
-// -------------------------
-
 app.listen(PORT, () => {
+
   console.log(
     `Ebenstudio Data Hub running on port ${PORT}`
   );
-});
+
+});￼Enter
