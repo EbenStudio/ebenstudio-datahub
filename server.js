@@ -149,11 +149,11 @@ app.post("/api/payment/verify", async (req, res) => {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "X-API-Key":
-            process.env.RAXAMART_API_KEY
-        },
-        body: JSON.stringify({
+  "Content-Type": "application/json",
+  "X-API-Key": process.env.RAXAMART_API_KEY,
+  "X-Idempotency-Key": reference
+}
+        PI     body: JSON.stringify({
           phone_number,
           network,
           plan_size_gb: planSize,
