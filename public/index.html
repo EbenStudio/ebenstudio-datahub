@@ -1,11 +1,11 @@
-here<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ebenstudio Data Hub</title>
 
-  <script src="https://js.paystack.co/v2/inline.js"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
 
   <style>
     * {
@@ -222,7 +222,7 @@ here<!DOCTYPE html>
       `Price: GH₵${selectedPlan.price.toFixed(2)}`;
   });
 
-  form.addEventListener("submit", async (event) => {
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const email = document.getElementById("email").value.trim();
@@ -238,7 +238,6 @@ here<!DOCTYPE html>
     const selectedPlan = plans[network][index];
 
     if (
-      !PAYSTACK_PUBLIC_KEY ||
       PAYSTACK_PUBLIC_KEY === "YOUR_PAYSTACK_PUBLIC_KEY"
     ) {
       alert("Paystack has not been configured yet.");
@@ -248,58 +247,22 @@ here<!DOCTYPE html>
     button.disabled = true;
     button.textContent = "Opening payment...";
 
-    const popup = new Paystack();
-
-    popup.checkout({
+    const handler = PaystackPop.setup({
       key: PAYSTACK_PUBLIC_KEY,
       email: email,
       amount: Math.round(selectedPlan.price * 100),
       currency: "GHS",
 
-      onSuccess: async (transaction) => {
-
-        message.style.display = "block";
-        message.textContent =
-          "Payment received. Verifying your payment...";
-
-        try {
-          const response = await fetch("/api/payment/verify", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              reference: transaction.reference,
-              phone_number: phone,
-              network: network,
-              plan_size_gb: selectedPlan.gb
-            })
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            message.textContent =
-              "Payment verified and your data order has been submitted. " +
-              "Reference: " +
-              (result.data?.transactionReference ||
-               transaction.reference);
-          } else {
-            message.textContent =
-              result.message ||
-              "Payment was received, but the order could not be submitted.";
-          }
-
-        } catch (error) {
-          message.textContent =
-            "Payment was received, but we could not confirm the order. Please contact support.";
-        }
-
-        button.disabled = false;
-        button.textContent = "Pay Now";
+      callback: function(transaction) {
+        verifyPayment(
+          transaction.reference,
+          phone,
+          network,
+          selectedPlan.gb
+        );
       },
 
-      onCancel: () => {
+      onClose: function() {
         message.style.display = "block";
         message.textContent = "Payment cancelled.";
 
@@ -307,8 +270,74 @@ here<!DOCTYPE html>
         button.textContent = "Pay Now";
       }
     });
+
+    handler.openIframe();
   });
+
+  async function verifyPayment(
+    reference,
+    phone,
+    network,
+    planSizeGb
+  ) {
+
+    message.style.display = "block";
+    message.textContent =
+      "Payment received. Verifying payment...";
+
+    try {
+
+      const response = await fetch(
+        "/api/payment/verify",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            reference: reference,
+            phone_number: phone,
+            network: network,
+            plan_size_gb: planSizeGb
+          })
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+
+        message.textContent =
+          "Payment verified and your data order has been submitted. " +
+          "Reference: " +
+          (
+            result.data?.transactionReference ||
+            reference
+          );
+
+      } else {
+
+        message.textContent =
+          result.message ||
+          "Payment was received, but the order could not be submitted.";
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      message.textContent =
+        "Payment was received, but we could not confirm the order. Please contact support.";
+
+    }
+
+    button.disabled = false;
+    button.textContent = "Pay Now";
+  }
 </script>
 
 </body>
-  </html>
+</html>￼Enter
