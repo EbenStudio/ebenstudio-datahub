@@ -1,4 +1,4 @@
-here<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -14,6 +14,10 @@ here<!DOCTYPE html>
       font-family: Arial, sans-serif;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       background: #f4f7fb;
@@ -21,100 +25,149 @@ here<!DOCTYPE html>
     }
 
     header {
-      background: #111827;
+      background: linear-gradient(135deg, #111827, #1f2937);
       color: white;
-      padding: 28px 20px;
       text-align: center;
+      padding: 55px 20px 45px;
+    }
+
+    .brand {
+      font-size: 15px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      opacity: 0.8;
+      text-transform: uppercase;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 30px;
+      margin: 12px 0 10px;
+      font-size: 38px;
     }
 
     header p {
-      margin: 8px 0 0;
-      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .hero-button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 13px 25px;
+      background: white;
+      color: #111827;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     .container {
-      max-width: 700px;
-      margin: 25px auto;
-      padding: 20px;
+      max-width: 850px;
+      margin: auto;
+      padding: 25px 18px;
     }
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
+    .section-title {
+      text-align: center;
+      margin: 35px 0 18px;
     }
 
-    h2 {
+    .section-title h2 {
+      margin-bottom: 7px;
+      font-size: 25px;
+    }
+
+    .section-title p {
+      color: #6b7280;
       margin-top: 0;
     }
 
     .networks {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin: 20px 0;
+      gap: 14px;
     }
 
     .network-card {
-      border: 2px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 16px 8px;
+      background: white;
+      border-radius: 16px;
+      padding: 22px 12px;
       text-align: center;
+      border: 2px solid #e5e7eb;
       cursor: pointer;
       transition: 0.2s;
-      background: white;
     }
 
     .network-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
 
     .network-card.active {
       border-color: #111827;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
     }
 
     .network-logo {
-      font-size: 28px;
-      margin-bottom: 7px;
+      font-size: 35px;
+      margin-bottom: 8px;
     }
 
     .network-name {
+      font-size: 17px;
       font-weight: bold;
-      font-size: 14px;
     }
 
-    .bundle-list {
-      margin-top: 15px;
+    .bundle-area {
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
     }
 
     .bundle {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 13px;
+      gap: 12px;
       border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      margin-bottom: 9px;
-      background: #fafafa;
+      padding: 14px;
+      border-radius: 11px;
+      margin-bottom: 10px;
     }
 
-    .bundle button {
+    .bundle:last-child {
+      margin-bottom: 0;
+    }
+
+    .bundle strong {
+      font-size: 17px;
+    }
+
+    .bundle-price {
+      color: #374151;
+      margin-top: 4px;
+    }
+
+    .select-button {
       width: auto;
+      padding: 9px 15px;
       margin: 0;
-      padding: 9px 14px;
       background: #111827;
       color: white;
       border: none;
-      border-radius: 7px;
+      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+      margin-top: 25px;
     }
 
     label {
@@ -143,34 +196,153 @@ here<!DOCTYPE html>
       cursor: pointer;
     }
 
-    button:disabled {
+    form button:disabled {
       opacity: 0.6;
     }
 
     #price {
       margin-top: 15px;
-      font-size: 20px;
+      font-size: 21px;
       font-weight: bold;
+    }
+
+    #selectedBundle {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 9px;
+      background: #f3f4f6;
+      font-size: 14px;
     }
 
     #message {
       margin-top: 18px;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 13px;
+      border-radius: 9px;
       display: none;
+      background: #f3f4f6;
     }
 
-    .selected {
-      background: #f0f4ff;
-      border: 1px solid #dbe4ff;
-      padding: 12px;
-      border-radius: 10px;
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .step {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: #111827;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .step h3 {
+      margin: 8px 0;
+    }
+
+    .step p {
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .benefit {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+    }
+
+    .benefit h3 {
+      margin-top: 0;
+    }
+
+    .benefit p {
+      color: #6b7280;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    .support {
+      text-align: center;
+      background: #111827;
+      color: white;
+      padding: 28px 20px;
+      border-radius: 16px;
+      margin-top: 25px;
+    }
+
+    .support p {
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+
+    .support a {
+      color: white;
+      font-weight: bold;
+    }
+
+    .payment-note {
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
       margin-top: 15px;
     }
 
-    @media (max-width: 500px) {
-      .networks {
+    footer {
+      margin-top: 35px;
+      padding: 25px 15px;
+      background: #111827;
+      color: white;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    footer p {
+      margin: 5px;
+      opacity: 0.75;
+    }
+
+    @media (max-width: 600px) {
+
+      header {
+        padding: 42px 18px;
+      }
+
+      header h1 {
+        font-size: 30px;
+      }
+
+      .networks,
+      .steps,
+      .benefits {
         grid-template-columns: 1fr;
+      }
+
+      .bundle {
+        align-items: flex-start;
+      }
+
+      .select-button {
+        flex-shrink: 0;
       }
     }
   </style>
@@ -179,124 +351,349 @@ here<!DOCTYPE html>
 <body>
 
 <header>
+
+  <div class="brand">
+    Ebenstudio
+  </div>
+
   <h1>Ebenstudio Data Hub</h1>
-  <p>Fast and reliable data bundles</p>
+
+  <p>
+    Affordable data bundles for MTN, Telecel and AirtelTigo.
+    Choose your bundle and pay securely online.
+  </p>
+
+  <a href="#buy" class="hero-button">
+    Buy Data Now
+  </a>
+
 </header>
 
-<div class="container">
 
-  <div class="card">
+<main class="container">
 
-    <h2>Choose Your Network</h2>
+  <section>
+
+    <div class="section-title">
+      <h2>Choose Your Network</h2>
+      <p>Select a network to view available data bundles.</p>
+    </div>
+
 
     <div class="networks">
 
-      <div class="network-card" onclick="selectNetwork('MTN', this)">
+      <div
+        class="network-card"
+        onclick="selectNetwork('MTN', this)"
+      >
         <div class="network-logo">🟨</div>
         <div class="network-name">MTN</div>
       </div>
 
-      <div class="network-card" onclick="selectNetwork('Telecel', this)">
+
+      <div
+        class="network-card"
+        onclick="selectNetwork('Telecel', this)"
+      >
         <div class="network-logo">🔴</div>
         <div class="network-name">Telecel</div>
       </div>
 
-      <div class="network-card" onclick="selectNetwork('AirtelTigo', this)">
+
+      <div
+        class="network-card"
+        onclick="selectNetwork('AirtelTigo', this)"
+      >
         <div class="network-logo">🔵</div>
         <div class="network-name">AirtelTigo</div>
       </div>
 
     </div>
 
-    <div id="bundleList" class="bundle-list">
-      <p>Select a network above to see available bundles.</p>
+
+    <div
+      id="bundleList"
+      class="bundle-area"
+    >
+      <p>
+        Select a network above to see available bundles.
+      </p>
     </div>
 
-  </div>
+  </section>
 
 
-  <div class="card">
+  <section id="buy">
 
-    <h2>Buy Data</h2>
-
-    <form id="orderForm">
-
-      <label for="email">Email Address</label>
-
-      <input
-        id="email"
-        type="email"
-        placeholder="you@example.com"
-        required
-      >
+    <div class="section-title">
+      <h2>Buy Your Data</h2>
+      <p>Enter your details below to continue.</p>
+    </div>
 
 
-      <label for="phone">Phone Number</label>
+    <div class="card">
 
-      <input
-        id="phone"
-        type="tel"
-        placeholder="0241234567"
-        required
-      >
+      <form id="orderForm">
 
+        <label for="email">
+          Email Address
+        </label>
 
-      <label for="network">Network</label>
-
-      <select id="network" required>
-
-        <option value="">
-          Select network
-        </option>
-
-        <option value="MTN">
-          MTN
-        </option>
-
-        <option value="Telecel">
-          Telecel
-        </option>
-
-        <option value="AirtelTigo">
-          AirtelTigo
-        </option>
-
-      </select>
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          required
+        >
 
 
-      <label for="plan">Data Bundle</label>
+        <label for="phone">
+          Phone Number
+        </label>
 
-      <select id="plan" required>
+        <input
+          id="phone"
+          type="tel"
+          placeholder="0241234567"
+          required
+        >
 
-        <option value="">
-          Select bundle
-        </option>
 
-      </select>
+        <label for="network">
+          Network
+        </label>
+
+        <select
+          id="network"
+          required
+        >
+
+          <option value="">
+            Select network
+          </option>
+
+          <option value="MTN">
+            MTN
+          </option>
+
+          <option value="Telecel">
+            Telecel
+          </option>
+
+          <option value="AirtelTigo">
+            AirtelTigo
+          </option>
+
+        </select>
 
 
-      <div id="price">
-        Price: GH₵0.00
+        <label for="plan">
+          Data Bundle
+        </label>
+
+        <select
+          id="plan"
+          required
+        >
+
+          <option value="">
+            Select bundle
+          </option>
+
+        </select>
+
+
+        <div id="price">
+          Price: GH₵0.00
+        </div>
+
+
+        <div id="selectedBundle">
+          No bundle selected.
+        </div>
+
+
+        <button
+          type="submit"
+          id="submitButton"
+        >
+          Pay Now
+        </button>
+
+      </form>
+
+
+      <div
+        id="message"
+      ></div>
+
+
+      <div class="payment-note">
+        Payment is processed securely through Paystack.
+        Never share your PIN or password.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section>
+
+    <div class="section-title">
+      <h2>How It Works</h2>
+      <p>Getting your data is simple.</p>
+    </div>
+
+
+    <div class="steps">
+
+      <div class="step">
+
+        <div class="step-number">
+          1
+        </div>
+
+        <h3>Choose</h3>
+
+        <p>
+          Select MTN, Telecel or AirtelTigo
+          and choose your preferred bundle.
+        </p>
+
       </div>
 
 
-      <div id="selectedBundle" class="selected">
-        No bundle selected.
+      <div class="step">
+
+        <div class="step-number">
+          2
+        </div>
+
+        <h3>Enter Details</h3>
+
+        <p>
+          Enter the phone number that should
+          receive the data and your email address.
+        </p>
+
       </div>
 
 
-      <button type="submit" id="submitButton">
-        Pay Now
-      </button>
+      <div class="step">
 
-    </form>
+        <div class="step-number">
+          3
+        </div>
+
+        <h3>Pay</h3>
+
+        <p>
+          Pay securely and wait for your order
+          to be processed.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
-    <div id="message"></div>
+  <section>
 
-  </div>
+    <div class="section-title">
+      <h2>Why Choose Us?</h2>
+    </div>
 
-</div>
+
+    <div class="benefits">
+
+      <div class="benefit">
+
+        <h3>⚡ Fast Service</h3>
+
+        <p>
+          Your order is submitted for processing
+          after successful payment.
+        </p>
+
+      </div>
+
+
+      <div class="benefit">
+
+        <h3>💰 Affordable Bundles</h3>
+
+        <p>
+          Choose from a range of data packages
+          to suit your needs.
+        </p>
+
+      </div>
+
+
+      <div class="benefit">
+
+        <h3>🔒 Secure Payments</h3>
+
+        <p>
+          Payments are handled through Paystack.
+          Your payment details are not stored on
+          this website.
+        </p>
+
+      </div>
+
+
+      <div class="benefit">
+
+        <h3>📱 Multiple Networks</h3>
+
+        <p>
+          MTN, Telecel and AirtelTigo bundles
+          are available in one place.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="support">
+
+    <h2>Need Help?</h2>
+
+    <p>
+      If you have a problem with an order,
+      contact Ebenstudio Data Hub for assistance.
+    </p>
+
+    <p>
+      <strong>Support:</strong>
+      <a href="tel:0598273865">
+        0598273865
+      </a>
+    </p>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <p>
+    © 2026 Ebenstudio Data Hub
+  </p>
+
+  <p>
+    Affordable and reliable data bundles.
+  </p>
+
+</footer>
 
 
 <script>
@@ -370,6 +767,7 @@ here<!DOCTYPE html>
     loadPlans(network);
 
     showBundles(network);
+
   }
 
 
@@ -387,19 +785,21 @@ here<!DOCTYPE html>
     if (!plans[network]) return;
 
 
-    plans[network].forEach((plan, index) => {
+    plans[network].forEach(
+      (plan, index) => {
 
-      const option =
-        document.createElement("option");
+        const option =
+          document.createElement("option");
 
-      option.value = index;
+        option.value = index;
 
-      option.textContent =
-        `${plan.gb}GB — GH₵${plan.price.toFixed(2)}`;
+        option.textContent =
+          `${plan.gb}GB — GH₵${plan.price.toFixed(2)}`;
 
-      planSelect.appendChild(option);
+        planSelect.appendChild(option);
 
-    });
+      }
+    );
 
   }
 
@@ -411,29 +811,35 @@ here<!DOCTYPE html>
     if (!plans[network]) return;
 
 
-    plans[network].forEach((plan, index) => {
+    plans[network].forEach(
+      (plan, index) => {
 
-      const bundle =
-        document.createElement("div");
+        const bundle =
+          document.createElement("div");
 
-      bundle.className = "bundle";
+        bundle.className = "bundle";
 
-      bundle.innerHTML = `
-        <div>
-          <strong>${plan.gb}GB</strong>
-          <br>
-          GH₵${plan.price.toFixed(2)}
-        </div>
+        bundle.innerHTML = `
+          <div>
+            <strong>${plan.gb}GB</strong>
+            <div class="bundle-price">
+              GH₵${plan.price.toFixed(2)}
+            </div>
+          </div>
 
-        <button type="button"
-          onclick="chooseBundle('${network}', ${index})">
-          Select
-        </button>
-      `;
+          <button
+            type="button"
+            class="select-button"
+            onclick="chooseBundle('${network}', ${index})"
+          >
+            Select
+          </button>
+        `;
 
-      bundleList.appendChild(bundle);
+        bundleList.appendChild(bundle);
 
-    });
+      }
+    );
 
   }
 
@@ -449,7 +855,7 @@ here<!DOCTYPE html>
     updatePrice();
 
     document
-      .getElementById("orderForm")
+      .getElementById("buy")
       .scrollIntoView({
         behavior: "smooth"
       });
@@ -466,7 +872,10 @@ here<!DOCTYPE html>
       planSelect.value;
 
 
-    if (!plans[network] || index === "") {
+    if (
+      !plans[network] ||
+      index === ""
+    ) {
 
       priceDisplay.textContent =
         "Price: GH₵0.00";
@@ -503,10 +912,14 @@ here<!DOCTYPE html>
       loadPlans(network);
 
       if (network) {
+
         showBundles(network);
+
       } else {
+
         bundleList.innerHTML =
           "<p>Select a network above to see available bundles.</p>";
+
       }
 
     }
