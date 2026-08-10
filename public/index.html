@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ebenstudio Data Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f7fb;
+      color: #111827;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 7px 0 0;
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 13px;
+      border-radius: 9px;
+      border: 1px solid #d1d5db;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 22px;
+      border: none;
+      background: #111827;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    #message {
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Ebenstudio Data Hub</h1>
+  <p>Fast and reliable data bundles</p>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>Buy Data</h2>
+
+    <form id="orderForm">
+
+      <label for="phone">Phone Number</label>
+      <input
+        id="phone"
+        type="tel"
+        placeholder="0241234567"
+        required
+      >
+
+      <label for="network">Network</label>
+      <select id="network" required>
+        <option value="">Select network</option>
+        <option value="MTN">MTN</option>
+        <option value="Telecel">Telecel</option>
+        <option value="AirtelTigo">AirtelTigo</option>
+      </select>
+
+      <label for="plan">Data Bundle</label>
+      <select id="plan" required>
+        <option value="">Select bundle</option>
+        <option value="1">1 GB</option>
+        <option value="2">2 GB</option>
+        <option value="5">5 GB</option>
+        <option value="10">10 GB</option>
+      </select>
+
+      <button type="submit" id="submitButton">
+        Continue
+      </button>
+
+    </form>
+
+    <div id="message"></div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("orderForm");
+  const message = document.getElementById("message");
+  const button = document.getElementById("submitButton");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const phone_number = document.getElementById("phone").value.trim();
+    const network = document.getElementById("network").value;
+    const plan_size_gb = Number(document.getElementById("plan").value);
+
+    button.disabled = true;
+    button.textContent = "Processing...";
+
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          phone_number,
+          network,
+          plan_size_gb,
+          reference: "ORDER-" + Date.now()
+        })
+      });
+
+      const result = await response.json();
+
+      message.style.display = "block";
+
+      if (result.success) {
+        message.textContent =
+          "Order created successfully. Status: " +
+          result.data.status +
+          ". Reference: " +
+          result.data.transactionReference;
+      } else {
+        message.textContent =
+          result.message || "Unable to create order.";
+      }
+
+    } catch (error) {
+      message.style.display = "block";
+      message.textContent =
+        "Something went wrong. Please try again.";
+    }
+
+    button.disabled = false;
+    button.textContent = "Continue";
+  });
+</script>
+
+</body>
+  </html>
