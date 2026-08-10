@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ebenstudio Data Hub</title>
+
+  <script src="https://js.paystack.co/v2/inline.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -19,13 +22,13 @@
     header {
       background: #111827;
       color: white;
-      padding: 22px;
+      padding: 24px;
       text-align: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 26px;
+      font-size: 27px;
     }
 
     header p {
@@ -57,7 +60,9 @@
       font-weight: bold;
     }
 
-    input, select, button {
+    input,
+    select,
+    button {
       width: 100%;
       padding: 13px;
       border-radius: 9px;
@@ -78,6 +83,12 @@
       opacity: 0.6;
     }
 
+    #price {
+      margin-top: 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
     #message {
       margin-top: 18px;
       padding: 12px;
@@ -96,9 +107,18 @@
 
 <div class="container">
   <div class="card">
+
     <h2>Buy Data</h2>
 
     <form id="orderForm">
+
+      <label for="email">Email Address</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="you@example.com"
+        required
+      >
 
       <label for="phone">Phone Number</label>
       <input
@@ -119,74 +139,174 @@
       <label for="plan">Data Bundle</label>
       <select id="plan" required>
         <option value="">Select bundle</option>
-        <option value="1">1 GB</option>
-        <option value="2">2 GB</option>
-        <option value="5">5 GB</option>
-        <option value="10">10 GB</option>
       </select>
 
+      <div id="price">Price: GH₵0.00</div>
+
       <button type="submit" id="submitButton">
-        Continue
+        Pay Now
       </button>
 
     </form>
 
     <div id="message"></div>
+
   </div>
 </div>
 
 <script>
+  const PAYSTACK_PUBLIC_KEY = "YOUR_PAYSTACK_PUBLIC_KEY";
+
+  const plans = {
+    MTN: [
+      { gb: 1, price: 6.00 },
+      { gb: 2, price: 10.00 },
+      { gb: 5, price: 25.80 },
+      { gb: 10, price: 50.00 }
+    ],
+
+    Telecel: [
+      { gb: 10, price: 42.00 },
+      { gb: 20, price: 78.00 },
+      { gb: 50, price: 180.50 }
+    ],
+
+    AirtelTigo: [
+      { gb: 1, price: 6.00 },
+      { gb: 2, price: 14.00 },
+      { gb: 5, price: 24.00 },
+      { gb: 10, price: 45.00 }
+    ]
+  };
+
+  const networkSelect = document.getElementById("network");
+  const planSelect = document.getElementById("plan");
+  const priceDisplay = document.getElementById("price");
   const form = document.getElementById("orderForm");
-  const message = document.getElementById("message");
   const button = document.getElementById("submitButton");
+  const message = document.getElementById("message");
+
+  networkSelect.addEventListener("change", () => {
+    const network = networkSelect.value;
+
+    planSelect.innerHTML =
+      '<option value="">Select bundle</option>';
+
+    priceDisplay.textContent = "Price: GH₵0.00";
+
+    if (!plans[network]) return;
+
+    plans[network].forEach((plan, index) => {
+      const option = document.createElement("option");
+
+      option.value = index;
+      option.textContent =
+        `${plan.gb}GB — GH₵${plan.price.toFixed(2)}`;
+
+      planSelect.appendChild(option);
+    });
+  });
+
+  planSelect.addEventListener("change", () => {
+    const network = networkSelect.value;
+    const index = planSelect.value;
+
+    if (!plans[network] || index === "") {
+      priceDisplay.textContent = "Price: GH₵0.00";
+      return;
+    }
+
+    const selectedPlan = plans[network][index];
+
+    priceDisplay.textContent =
+      `Price: GH₵${selectedPlan.price.toFixed(2)}`;
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const phone_number = document.getElementById("phone").value.trim();
-    const network = document.getElementById("network").value;
-    const plan_size_gb = Number(document.getElementById("plan").value);
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const network = networkSelect.value;
+    const index = planSelect.value;
 
-    button.disabled = true;
-    button.textContent = "Processing...";
-
-    try {
-      const response = await fetch("/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          phone_number,
-          network,
-          plan_size_gb,
-          reference: "ORDER-" + Date.now()
-        })
-      });
-
-      const result = await response.json();
-
-      message.style.display = "block";
-
-      if (result.success) {
-        message.textContent =
-          "Order created successfully. Status: " +
-          result.data.status +
-          ". Reference: " +
-          result.data.transactionReference;
-      } else {
-        message.textContent =
-          result.message || "Unable to create order.";
-      }
-
-    } catch (error) {
-      message.style.display = "block";
-      message.textContent =
-        "Something went wrong. Please try again.";
+    if (!plans[network] || index === "") {
+      alert("Please select a data bundle.");
+      return;
     }
 
-    button.disabled = false;
-    button.textContent = "Continue";
+    const selectedPlan = plans[network][index];
+
+    if (
+      !PAYSTACK_PUBLIC_KEY ||
+      PAYSTACK_PUBLIC_KEY === "YOUR_PAYSTACK_PUBLIC_KEY"
+    ) {
+      alert("Paystack has not been configured yet.");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Opening payment...";
+
+    const popup = new Paystack();
+
+    popup.checkout({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: email,
+      amount: Math.round(selectedPlan.price * 100),
+      currency: "GHS",
+
+      onSuccess: async (transaction) => {
+
+        message.style.display = "block";
+        message.textContent =
+          "Payment received. Verifying your payment...";
+
+        try {
+          const response = await fetch("/api/payment/verify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              reference: transaction.reference,
+              phone_number: phone,
+              network: network,
+              plan_size_gb: selectedPlan.gb
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            message.textContent =
+              "Payment verified and your data order has been submitted. " +
+              "Reference: " +
+              (result.data?.transactionReference ||
+               transaction.reference);
+          } else {
+            message.textContent =
+              result.message ||
+              "Payment was received, but the order could not be submitted.";
+          }
+
+        } catch (error) {
+          message.textContent =
+            "Payment was received, but we could not confirm the order. Please contact support.";
+        }
+
+        button.disabled = false;
+        button.textContent = "Pay Now";
+      },
+
+      onCancel: () => {
+        message.style.display = "block";
+        message.textContent = "Payment cancelled.";
+
+        button.disabled = false;
+        button.textContent = "Pay Now";
+      }
+    });
   });
 </script>
 
