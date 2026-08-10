@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Ebenstudio Data Hub</title>
 
   <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -22,23 +23,23 @@
     header {
       background: #111827;
       color: white;
-      padding: 24px;
+      padding: 28px 20px;
       text-align: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 27px;
+      font-size: 30px;
     }
 
     header p {
-      margin: 7px 0 0;
+      margin: 8px 0 0;
       opacity: 0.85;
     }
 
     .container {
-      max-width: 600px;
-      margin: 30px auto;
+      max-width: 700px;
+      margin: 25px auto;
       padding: 20px;
     }
 
@@ -47,10 +48,73 @@
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
     }
 
     h2 {
       margin-top: 0;
+    }
+
+    .networks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .network-card {
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      background: white;
+    }
+
+    .network-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .network-card.active {
+      border-color: #111827;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    }
+
+    .network-logo {
+      font-size: 28px;
+      margin-bottom: 7px;
+    }
+
+    .network-name {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .bundle-list {
+      margin-top: 15px;
+    }
+
+    .bundle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      margin-bottom: 9px;
+      background: #fafafa;
+    }
+
+    .bundle button {
+      width: auto;
+      margin: 0;
+      padding: 9px 14px;
+      background: #111827;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
     }
 
     label {
@@ -62,7 +126,7 @@
 
     input,
     select,
-    button {
+    form button {
       width: 100%;
       padding: 13px;
       border-radius: 9px;
@@ -70,7 +134,7 @@
       font-size: 16px;
     }
 
-    button {
+    form button {
       margin-top: 22px;
       border: none;
       background: #111827;
@@ -95,6 +159,20 @@
       border-radius: 8px;
       display: none;
     }
+
+    .selected {
+      background: #f0f4ff;
+      border: 1px solid #dbe4ff;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 500px) {
+      .networks {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -106,6 +184,37 @@
 </header>
 
 <div class="container">
+
+  <div class="card">
+
+    <h2>Choose Your Network</h2>
+
+    <div class="networks">
+
+      <div class="network-card" onclick="selectNetwork('MTN', this)">
+        <div class="network-logo">🟨</div>
+        <div class="network-name">MTN</div>
+      </div>
+
+      <div class="network-card" onclick="selectNetwork('Telecel', this)">
+        <div class="network-logo">🔴</div>
+        <div class="network-name">Telecel</div>
+      </div>
+
+      <div class="network-card" onclick="selectNetwork('AirtelTigo', this)">
+        <div class="network-logo">🔵</div>
+        <div class="network-name">AirtelTigo</div>
+      </div>
+
+    </div>
+
+    <div id="bundleList" class="bundle-list">
+      <p>Select a network above to see available bundles.</p>
+    </div>
+
+  </div>
+
+
   <div class="card">
 
     <h2>Buy Data</h2>
@@ -113,6 +222,7 @@
     <form id="orderForm">
 
       <label for="email">Email Address</label>
+
       <input
         id="email"
         type="email"
@@ -120,7 +230,9 @@
         required
       >
 
+
       <label for="phone">Phone Number</label>
+
       <input
         id="phone"
         type="tel"
@@ -128,20 +240,50 @@
         required
       >
 
+
       <label for="network">Network</label>
+
       <select id="network" required>
-        <option value="">Select network</option>
-        <option value="MTN">MTN</option>
-        <option value="Telecel">Telecel</option>
-        <option value="AirtelTigo">AirtelTigo</option>
+
+        <option value="">
+          Select network
+        </option>
+
+        <option value="MTN">
+          MTN
+        </option>
+
+        <option value="Telecel">
+          Telecel
+        </option>
+
+        <option value="AirtelTigo">
+          AirtelTigo
+        </option>
+
       </select>
+
 
       <label for="plan">Data Bundle</label>
+
       <select id="plan" required>
-        <option value="">Select bundle</option>
+
+        <option value="">
+          Select bundle
+        </option>
+
       </select>
 
-      <div id="price">Price: GH₵0.00</div>
+
+      <div id="price">
+        Price: GH₵0.00
+      </div>
+
+
+      <div id="selectedBundle" class="selected">
+        No bundle selected.
+      </div>
+
 
       <button type="submit" id="submitButton">
         Pay Now
@@ -149,15 +291,22 @@
 
     </form>
 
+
     <div id="message"></div>
 
   </div>
+
 </div>
 
+
 <script>
-  const PAYSTACK_PUBLIC_KEY = "pk_test_de2b9caa2648faf3f4ec46a839edf5d0c5ef0b96";
+
+  const PAYSTACK_PUBLIC_KEY =
+    "pk_test_de2b9caa2648faf3f4ec46a839edf5d0c5ef0b96";
+
 
   const plans = {
+
     MTN: [
       { gb: 1, price: 6.00 },
       { gb: 2, price: 10.00 },
@@ -177,102 +326,322 @@
       { gb: 5, price: 24.00 },
       { gb: 10, price: 45.00 }
     ]
+
   };
 
-  const networkSelect = document.getElementById("network");
-  const planSelect = document.getElementById("plan");
-  const priceDisplay = document.getElementById("price");
-  const form = document.getElementById("orderForm");
-  const button = document.getElementById("submitButton");
-  const message = document.getElementById("message");
 
-  networkSelect.addEventListener("change", () => {
-    const network = networkSelect.value;
+  const networkSelect =
+    document.getElementById("network");
+
+  const planSelect =
+    document.getElementById("plan");
+
+  const priceDisplay =
+    document.getElementById("price");
+
+  const form =
+    document.getElementById("orderForm");
+
+  const button =
+    document.getElementById("submitButton");
+
+  const message =
+    document.getElementById("message");
+
+  const bundleList =
+    document.getElementById("bundleList");
+
+  const selectedBundle =
+    document.getElementById("selectedBundle");
+
+
+  function selectNetwork(network, element) {
+
+    document
+      .querySelectorAll(".network-card")
+      .forEach(card => {
+        card.classList.remove("active");
+      });
+
+    element.classList.add("active");
+
+    networkSelect.value = network;
+
+    loadPlans(network);
+
+    showBundles(network);
+  }
+
+
+  function loadPlans(network) {
 
     planSelect.innerHTML =
       '<option value="">Select bundle</option>';
 
-    priceDisplay.textContent = "Price: GH₵0.00";
+    priceDisplay.textContent =
+      "Price: GH₵0.00";
+
+    selectedBundle.textContent =
+      "No bundle selected.";
 
     if (!plans[network]) return;
 
+
     plans[network].forEach((plan, index) => {
-      const option = document.createElement("option");
+
+      const option =
+        document.createElement("option");
 
       option.value = index;
+
       option.textContent =
         `${plan.gb}GB — GH₵${plan.price.toFixed(2)}`;
 
       planSelect.appendChild(option);
-    });
-  });
 
-  planSelect.addEventListener("change", () => {
-    const network = networkSelect.value;
-    const index = planSelect.value;
+    });
+
+  }
+
+
+  function showBundles(network) {
+
+    bundleList.innerHTML = "";
+
+    if (!plans[network]) return;
+
+
+    plans[network].forEach((plan, index) => {
+
+      const bundle =
+        document.createElement("div");
+
+      bundle.className = "bundle";
+
+      bundle.innerHTML = `
+        <div>
+          <strong>${plan.gb}GB</strong>
+          <br>
+          GH₵${plan.price.toFixed(2)}
+        </div>
+
+        <button type="button"
+          onclick="chooseBundle('${network}', ${index})">
+          Select
+        </button>
+      `;
+
+      bundleList.appendChild(bundle);
+
+    });
+
+  }
+
+
+  function chooseBundle(network, index) {
+
+    networkSelect.value = network;
+
+    loadPlans(network);
+
+    planSelect.value = index;
+
+    updatePrice();
+
+    document
+      .getElementById("orderForm")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  }
+
+
+  function updatePrice() {
+
+    const network =
+      networkSelect.value;
+
+    const index =
+      planSelect.value;
+
 
     if (!plans[network] || index === "") {
-      priceDisplay.textContent = "Price: GH₵0.00";
+
+      priceDisplay.textContent =
+        "Price: GH₵0.00";
+
+      selectedBundle.textContent =
+        "No bundle selected.";
+
       return;
+
     }
 
-    const selectedPlan = plans[network][index];
+
+    const selectedPlan =
+      plans[network][index];
+
 
     priceDisplay.textContent =
       `Price: GH₵${selectedPlan.price.toFixed(2)}`;
-  });
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const network = networkSelect.value;
-    const index = planSelect.value;
+    selectedBundle.textContent =
+      `Selected: ${network} ${selectedPlan.gb}GB — GH₵${selectedPlan.price.toFixed(2)}`;
 
-    if (!plans[network] || index === "") {
-      alert("Please select a data bundle.");
-      return;
-    }
+  }
 
-    const selectedPlan = plans[network][index];
 
-    if (
-      PAYSTACK_PUBLIC_KEY === "YOUR_PAYSTACK_PUBLIC_KEY"
-    ) {
-      alert("Paystack has not been configured yet.");
-      return;
-    }
+  networkSelect.addEventListener(
+    "change",
+    () => {
 
-    button.disabled = true;
-    button.textContent = "Opening payment...";
+      const network =
+        networkSelect.value;
 
-    const handler = PaystackPop.setup({
-      key: PAYSTACK_PUBLIC_KEY,
-      email: email,
-      amount: Math.round(selectedPlan.price * 100),
-      currency: "GHS",
+      loadPlans(network);
 
-      callback: function(transaction) {
-        verifyPayment(
-          transaction.reference,
-          phone,
-          network,
-          selectedPlan.gb
-        );
-      },
-
-      onClose: function() {
-        message.style.display = "block";
-        message.textContent = "Payment cancelled.";
-
-        button.disabled = false;
-        button.textContent = "Pay Now";
+      if (network) {
+        showBundles(network);
+      } else {
+        bundleList.innerHTML =
+          "<p>Select a network above to see available bundles.</p>";
       }
-    });
 
-    handler.openIframe();
-  });
+    }
+  );
+
+
+  planSelect.addEventListener(
+    "change",
+    updatePrice
+  );
+
+
+  form.addEventListener(
+    "submit",
+    (event) => {
+
+      event.preventDefault();
+
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById("phone")
+          .value
+          .trim();
+
+
+      const network =
+        networkSelect.value;
+
+
+      const index =
+        planSelect.value;
+
+
+      if (
+        !plans[network] ||
+        index === ""
+      ) {
+
+        alert(
+          "Please select a data bundle."
+        );
+
+        return;
+
+      }
+
+
+      const selectedPlan =
+        plans[network][index];
+
+
+      if (
+        PAYSTACK_PUBLIC_KEY ===
+        "YOUR_PAYSTACK_PUBLIC_KEY"
+      ) {
+
+        alert(
+          "Paystack has not been configured yet."
+        );
+
+        return;
+
+      }
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Opening payment...";
+
+
+      const handler =
+        PaystackPop.setup({
+
+          key:
+            PAYSTACK_PUBLIC_KEY,
+
+          email:
+            email,
+
+          amount:
+            Math.round(
+              selectedPlan.price * 100
+            ),
+
+          currency:
+            "GHS",
+
+
+          callback:
+            function(transaction) {
+
+              verifyPayment(
+                transaction.reference,
+                phone,
+                network,
+                selectedPlan.gb
+              );
+
+            },
+
+
+          onClose:
+            function() {
+
+              message.style.display =
+                "block";
+
+              message.textContent =
+                "Payment cancelled.";
+
+              button.disabled =
+                false;
+
+              button.textContent =
+                "Pay Now";
+
+            }
+
+        });
+
+
+      handler.openIframe();
+
+    }
+  );
+
 
   async function verifyPayment(
     reference,
@@ -281,31 +650,52 @@
     planSizeGb
   ) {
 
-    message.style.display = "block";
+    message.style.display =
+      "block";
+
     message.textContent =
       "Payment received. Verifying payment...";
 
+
     try {
 
-      const response = await fetch(
-        "/api/payment/verify",
-        {
-          method: "POST",
+      const response =
+        await fetch(
+          "/api/payment/verify",
+          {
 
-          headers: {
-            "Content-Type": "application/json"
-          },
+            method:
+              "POST",
 
-          body: JSON.stringify({
-            reference: reference,
-            phone_number: phone,
-            network: network,
-            plan_size_gb: planSizeGb
-          })
-        }
-      );
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
 
-      const result = await response.json();
+            body:
+              JSON.stringify({
+
+                reference:
+                  reference,
+
+                phone_number:
+                  phone,
+
+                network:
+                  network,
+
+                plan_size_gb:
+                  planSizeGb
+
+              })
+
+          }
+        );
+
+
+      const result =
+        await response.json();
+
 
       if (result.success) {
 
@@ -325,6 +715,7 @@
 
       }
 
+
     } catch (error) {
 
       console.error(error);
@@ -334,10 +725,16 @@
 
     }
 
-    button.disabled = false;
-    button.textContent = "Pay Now";
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Pay Now";
+
   }
+
 </script>
 
 </body>
-</html>￼Enter
+  </html>
